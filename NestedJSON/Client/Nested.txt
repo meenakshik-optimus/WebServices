@@ -1,0 +1,17 @@
+{
+    "name": "Meenakshi",
+    "age": 21,
+    "address":{
+        "streetAddress": "f-1,c-1/80",
+        "city": "ghaziabad"
+    },
+    "phoneNumber": [
+        {
+            "type": "home",
+            "number": "0223344"
+        },{
+            "type": "office",
+            "number": "012-09756234"
+        }
+    ]
+}
