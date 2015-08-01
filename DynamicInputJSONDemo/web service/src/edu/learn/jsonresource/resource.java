@@ -9,7 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @Path("/abc")
-public class resource {
+public class Resource {
 	@POST
 	@Path("/simple")
 	@Consumes(MediaType.APPLICATION_JSON)
