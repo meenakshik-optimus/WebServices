@@ -12,7 +12,6 @@ public class JsonString {
 		while (iterator.hasNext()) {
 			Employee employee = (Employee) iterator.next();
 			int id = employee.getId();
-			System.out.println(id);
 			String name = employee.getEmployeeName();
 			int salary = employee.getSalary();
 			String department = employee.getDepartment();

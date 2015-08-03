@@ -2,6 +2,9 @@ package edu.learn.webservice.client;
 
 
 import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -15,8 +18,9 @@ public class EmployeeDAO {
 	private SessionFactory sessionFactory;
 	private Session session;
 	private Employee employee;
-
+	static Logger log = Logger.getLogger(EmployeeDAO.class);
 	public EmployeeDAO() {
+		
 		configuration = new Configuration();
 
 		configuration.configure("hibernate.cfg.xml");
@@ -30,7 +34,10 @@ public class EmployeeDAO {
 
 	public int addEmployeeDetails(String employeeName, int salary,
 			String department) {
+		
+		PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("log4j.properties"));
 		int status;
+		log.info("Entering in method for adding employee...");
 		try {
 
 			/**
@@ -63,7 +70,8 @@ public class EmployeeDAO {
 	}
 
 	public List<Employee> getDetails() {
-
+		log.info("Entering in method for getting details of employee...");
+		PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("log4j.properties"));
 		/**
 		 * Get Session object
 		 */
@@ -88,9 +96,9 @@ public class EmployeeDAO {
 
 	public int updateEmployeeDetails(int id, String employeeName, int salary,
 			String department) {
-
+		PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("log4j.properties"));
 		int result = 0;
-
+		log.info("Entering in method for updating employee datails...");
 		try {
 
 			/**

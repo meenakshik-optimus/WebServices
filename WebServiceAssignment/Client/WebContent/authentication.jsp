@@ -4,17 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Optimus Employee Records</title>
+<title>Insert title here</title>
 </head>
 <body>
-<br>
-<br>
-
-	<a href="authentication.jsp">Add Employee</a>
-	<br>
-	<a href="update.jsp">Update Employee</a>
-	<br>
-	<a href="details">Get Employee Details</a>
-	<br>
+	<form action="authentication" method="post">
+		Enter AdminName:<input type="text" name="adminName" /><br /> <br />
+		Enter Password:<input type="password" name="Password" /><br /> <br />
+		<input type="submit" value="Login" />
+	</form>
 </body>
 </html>

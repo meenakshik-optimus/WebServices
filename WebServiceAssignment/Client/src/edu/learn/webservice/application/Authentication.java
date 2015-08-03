@@ -20,38 +20,34 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
- * Servlet implementation class AddEmployee
+ * Servlet implementation class Authentication
  */
-@WebServlet("/AddEmployee")
-public class AddEmployee extends HttpServlet {
-
+@WebServlet("/authentication")
+public class Authentication extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	static Logger log = Logger.getLogger(AddEmployee.class);
-
+    
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("log4j.properties"));
-		log.info("Entering in client for adding employee...");
-		String employeeName = request.getParameter("employeeName");
+		
+		log.info("Entering in client for authentication...");
+		String adminName = request.getParameter("adminName");
 
-		int salary = Integer.parseInt(request.getParameter("salary"));
+		String Password = request.getParameter("Password");
 
-		String department = request.getParameter("department");
+		
 
 		/**
 		 * creating JSON message
 		 */
-		String JsonString = "{\"employeeName\":" + employeeName
-				+ ",\"salary\":" + salary + ",\"department\":" + department
-				+ "}";
+		String JsonString = "{\"adminName\":" + adminName
+				+ ",\"Password\":" + Password+"}";
 
-		String url = "http://localhost:8080/WebServiceApp/rest/service/add";
+		String url = "http://localhost:8080/WebServiceApp/rest/service/authenticate";
 		URL object = new URL(url);
 
 		try {
@@ -113,22 +109,22 @@ public class AddEmployee extends HttpServlet {
 
 			if (status == 1) {
 				PrintWriter out = response.getWriter();
-				out.println("Employee added");
+				out.println("authenticated user");
 
-				log.info("Successful addition of employee");
+				log.info("authenticated user");
 
 				log.info(".......End");
 
 				RequestDispatcher requestDispatcher = request
-						.getRequestDispatcher("/welcome.jsp");
+						.getRequestDispatcher("/index.jsp");
 				requestDispatcher.include(request, response);
 			} else {
 				PrintWriter out = response.getWriter();
-				out.println("Try again");
+				out.println("authentication denied");
 				RequestDispatcher requestDispatcher = request
-						.getRequestDispatcher("/index.jsp");
+						.getRequestDispatcher("/authentication.jsp");
 				requestDispatcher.include(request, response);
-				log.info("Some issue in adding data");
+				log.info("Some issue in authentication of admin");
 			}
 		} catch (MalformedURLException exception) {
 

@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,20 +16,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 /**
  * Servlet implementation class UpdateController
  */
 @WebServlet("/updateController")
 public class UpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	static Logger log = Logger.getLogger(UpdateController.class);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
+	protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		
+		PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("log4j.properties"));
+		
+		log.info("Entering in client for updating employee...");
+		
 		int id = Integer.parseInt(request.getParameter("id"));
 
 		String employeeName = request.getParameter("employeeName");
@@ -51,21 +59,21 @@ public class UpdateController extends HttpServlet {
 			/*
 			 * HTTP Connection is opened.
 			 */
-			HttpURLConnection connection = (HttpURLConnection) object
-					.openConnection();
-
+			HttpURLConnection connection = (HttpURLConnection) object.openConnection();
+			log.info("HTTP Connection is opened");
+			
 			/**
 			 * setting headers for connection
 			 */
 			connection.setRequestMethod("POST");
+			log.info("Request method is POST");
 			connection.setRequestProperty("Content-Type", "application/json");
 			connection.setDoOutput(true);
 
-			DataOutputStream writer = new DataOutputStream(
-					connection.getOutputStream());
-
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			log.info("Creation of new DataOutputStream");
 			writer.writeBytes(JsonString);
-
+			log.info("Writing data to the stream");
 			writer.flush();
 
 			/**
@@ -80,11 +88,14 @@ public class UpdateController extends HttpServlet {
 			 */
 			System.out.println("Response Code: " + responseCode);
 			System.out.println("Response Message: " + responseMessage);
+			log.info("Getting Respopnse Code:" + responseCode);
 
+			log.info("Getting Respopnse Message:" + responseMessage);
 			/**
 			 * Receiving data from web service
 			 */
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
 
 			String inputData;
 
@@ -96,7 +107,7 @@ public class UpdateController extends HttpServlet {
 			}
 
 			reader.close();
-
+			log.info("Receiving data from web service");
 			int status = Integer.parseInt(output.toString());
 
 			if (status == 1) {
@@ -107,6 +118,9 @@ public class UpdateController extends HttpServlet {
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/welcome.jsp");
 
 				requestDispatcher.include(request, response);
+				log.info("Successful addition of employee");
+
+				log.info(".......End");
 			}
 
 			else {
@@ -115,10 +129,12 @@ public class UpdateController extends HttpServlet {
 
 				out.println("Try again");
 
-				RequestDispatcher requestDispatcher = request
-						.getRequestDispatcher("/update.jsp");
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/update.jsp");
 
 				requestDispatcher.include(request, response);
+				log.info("Issue in updating employee");
+
+				log.info(".......End");
 
 			}
 
